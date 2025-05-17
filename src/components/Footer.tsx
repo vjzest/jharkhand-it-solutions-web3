@@ -285,17 +285,20 @@ const Footer: React.FC = () => {
               >
                 Secure Online Payments
               </motion.h4>
-              <Link
-                to="/pay-online"
-                className="inline-flex items-center gap-3 text-sm bg-slate-700/50 hover:bg-slate-700 border border-slate-600 text-sky-300 hover:text-sky-200 hover:border-sky-500/70 rounded-lg transition-all duration-300 py-2.5 px-4 group"
+              <motion.div
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <span className="flex items-center justify-center w-7 h-7 bg-sky-500/80 group-hover:bg-sky-500 rounded-full transition-colors duration-300">
-                  <CreditCard size={14} className="text-white" />
-                </span>
-                Pay Online Securely
-              </Link>
+                <Link
+                  to="/pay-online"
+                  className="inline-flex items-center gap-3 text-sm bg-slate-700/50 hover:bg-slate-700 border border-slate-600 text-sky-300 hover:text-sky-200 hover:border-sky-500/70 rounded-lg transition-all duration-300 py-2.5 px-4 group"
+                >
+                  <span className="flex items-center justify-center w-7 h-7 bg-sky-500/80 group-hover:bg-sky-500 rounded-full transition-colors duration-300">
+                    <CreditCard size={14} className="text-white" />
+                  </span>
+                  Pay Online Securely
+                </Link>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
