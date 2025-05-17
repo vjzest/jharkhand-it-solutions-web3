@@ -1,7 +1,6 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, UserCog, Settings } from 'lucide-react';
+import { ChevronDown, UserCog, Settings, LogOut, FilePlus, Plus } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
@@ -30,6 +29,21 @@ const UnifiedNavbar: React.FC = () => {
     logout();
     navigate('/');
   };
+
+  useEffect(() => {
+    // Check localStorage directly as a fallback
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        console.log("Current user data:", userData);
+      } catch (error) {
+        console.error("Failed to parse stored user data:", error);
+      }
+    } else {
+      console.log("No user data in localStorage");
+    }
+  }, []);
 
   return (
     <nav className="bg-gray-900 py-4 fixed top-0 left-0 right-0 z-50">
@@ -109,48 +123,59 @@ const UnifiedNavbar: React.FC = () => {
             </div>
           </div>
           
-          {/* Auth Buttons and Admin Panel */}
+          {/* Admin Panel and Auth Buttons */}
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
-              <>
+              <div className="flex items-center space-x-3">
                 <span className="hidden md:inline text-white">
                   {user?.email}
                 </span>
                 
                 {isAdmin && (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <motion.button 
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:shadow-lg hover:shadow-blue-500/30 transition-all"
-                      >
-                        <UserCog size={20} />
-                      </motion.button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56 bg-gray-800 text-white border-gray-700">
-                      <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin')}>
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Admin Panel</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin/create-service')}>
-                        <span>Create Service</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin/create-portfolio')}>
-                        <span>Create Portfolio</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className="flex items-center">
+                    {/* Admin Panel Button - Always visible for admins on desktop */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <motion.button 
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                        >
+                          <UserCog size={20} />
+                        </motion.button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56 bg-gray-800 text-white border-gray-700">
+                        <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin')}>
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Admin Panel</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin/create-service')}>
+                          <FilePlus className="mr-2 h-4 w-4" />
+                          <span>Create Service</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin/create-portfolio')}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          <span>Create Portfolio</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={handleLogout}>
+                          <LogOut className="mr-2 h-4 w-4" />
+                          <span>Logout</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 )}
                 
-                <Button 
-                  variant="outline" 
-                  className="bg-transparent border-white text-white hover:bg-gray-800"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Button>
-              </>
+                {!isAdmin && (
+                  <Button 
+                    variant="outline" 
+                    className="bg-transparent border-white text-white hover:bg-gray-800"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                )}
+              </div>
             ) : (
               <>
                 <Link to="/login">
@@ -283,12 +308,12 @@ const UnifiedNavbar: React.FC = () => {
               </div>
             </div>
 
-            {/* Admin Panel options for mobile */}
+            {/* Admin Panel options for mobile - Always visible for admins */}
             {isAuthenticated && isAdmin && (
               <>
                 <div className="py-2">
                   <button 
-                    className="flex items-center justify-between w-full text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
+                    className="flex items-center justify-between w-full text-purple-400 hover:text-purple-300 transition-colors font-medium"
                     onClick={() => toggleDropdown('admin')}
                   >
                     Admin Panel
@@ -311,6 +336,7 @@ const UnifiedNavbar: React.FC = () => {
                         className="text-gray-300 hover:text-cyan-400 text-sm py-1"
                         onClick={() => setMobileMenuOpen(false)}
                       >
+                        <Settings className="inline-block mr-2 h-4 w-4" />
                         Dashboard
                       </Link>
                       <Link 
@@ -318,6 +344,7 @@ const UnifiedNavbar: React.FC = () => {
                         className="text-gray-300 hover:text-cyan-400 text-sm py-1"
                         onClick={() => setMobileMenuOpen(false)}
                       >
+                        <FilePlus className="inline-block mr-2 h-4 w-4" />
                         Create Service
                       </Link>
                       <Link 
@@ -325,6 +352,7 @@ const UnifiedNavbar: React.FC = () => {
                         className="text-gray-300 hover:text-cyan-400 text-sm py-1"
                         onClick={() => setMobileMenuOpen(false)}
                       >
+                        <Plus className="inline-block mr-2 h-4 w-4" />
                         Create Portfolio
                       </Link>
                     </div>
@@ -347,6 +375,7 @@ const UnifiedNavbar: React.FC = () => {
                     navigate('/');
                   }}
                 >
+                  <LogOut className="inline-block mr-2 h-4 w-4" />
                   Logout
                 </button>
               </>
