@@ -7,7 +7,7 @@ import { AspectRatio } from './ui/aspect-ratio';
 
 const HeroSection: React.FC = () => {
   return (
-    <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16 md:py-20 overflow-hidden">
+    <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-12 md:py-16 overflow-hidden">
       {/* 3D Background Elements */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
         <motion.div 
@@ -41,7 +41,7 @@ const HeroSection: React.FC = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-center">
           <motion.div
-            className="w-full lg:w-1/2 text-left mb-10 lg:mb-0"
+            className="w-full lg:w-1/2 text-left mb-8 lg:mb-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -235,28 +235,28 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* 3D floating elements */}
+      {/* 3D floating elements - made smaller and fewer */}
       <motion.div 
-        className="hidden lg:block absolute top-20 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-jis-teal/20 to-jis-blue/20 border border-jis-teal/30"
+        className="hidden lg:block absolute top-16 right-16 w-20 h-20 rounded-full bg-gradient-to-br from-jis-teal/20 to-jis-blue/20 border border-jis-teal/30"
         animate={{ 
-          y: [0, -20, 0],
+          y: [0, -15, 0],
           rotate: [0, 180, 360]
         }}
         transition={{ 
-          duration: 12,
+          duration: 10,
           repeat: Infinity,
           ease: "easeInOut"
         }}
       ></motion.div>
 
       <motion.div 
-        className="hidden lg:block absolute bottom-20 left-20 w-16 h-16 rounded-md bg-gradient-to-br from-jis-purple/20 to-jis-blue/20 border border-jis-purple/30"
+        className="hidden lg:block absolute bottom-16 left-16 w-12 h-12 rounded-md bg-gradient-to-br from-jis-purple/20 to-jis-blue/20 border border-jis-purple/30"
         animate={{ 
-          y: [0, 15, 0],
+          y: [0, 10, 0],
           rotate: [0, 180, 360]
         }}
         transition={{ 
-          duration: 10,
+          duration: 8,
           repeat: Infinity,
           ease: "easeInOut",
           delay: 1

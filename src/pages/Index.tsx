@@ -15,31 +15,49 @@ const Index: React.FC = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <EnhancedHero />
+      <div className="py-8 md:py-12">
+        <EnhancedHero />
+      </div>
       
       {/* Technology Showcase */}
-      <TechnologyShowcase />
+      <div className="py-10 md:py-14">
+        <TechnologyShowcase />
+      </div>
       
       {/* Services Slider */}
-      <ServicesSlider />
+      <div className="py-10 md:py-14">
+        <ServicesSlider />
+      </div>
       
       {/* Industries We Serve */}
-      <IndustriesWeServe />
+      <div className="py-10 md:py-14">
+        <IndustriesWeServe />
+      </div>
       
       {/* Company Awards */}
-      <CompanyAwards />
+      <div className="py-8 md:py-12">
+        <CompanyAwards />
+      </div>
       
       {/* Testimonials */}
-      <EnhancedTestimonials />
+      <div className="py-10 md:py-14">
+        <EnhancedTestimonials />
+      </div>
       
       {/* Portfolio */}
-      <PortfolioSection />
+      <div className="py-10 md:py-14">
+        <PortfolioSection />
+      </div>
       
       {/* Talk to Consultant */}
-      <ConsultationCTA />
+      <div className="py-8 md:py-12">
+        <ConsultationCTA />
+      </div>
       
       {/* Blog Section */}
-      <BlogSection />
+      <div className="py-10 md:py-14">
+        <BlogSection />
+      </div>
     </Layout>
   );
 };
