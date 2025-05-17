@@ -1,9 +1,16 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, UserCog, Settings } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const UnifiedNavbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -100,25 +107,42 @@ const UnifiedNavbar: React.FC = () => {
                 </div>
               </div>
             </div>
-            
-            {/* Admin Panel link for admin users */}
-            {isAdmin && (
-              <Link 
-                to="/admin"
-                className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
-              >
-                Admin Panel
-              </Link>
-            )}
           </div>
           
-          {/* Auth Buttons */}
+          {/* Auth Buttons and Admin Panel */}
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
                 <span className="hidden md:inline text-white">
                   {user?.email}
                 </span>
+                
+                {isAdmin && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <motion.button 
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+                      >
+                        <UserCog size={20} />
+                      </motion.button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56 bg-gray-800 text-white border-gray-700">
+                      <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin')}>
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Admin Panel</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin/create-service')}>
+                        <span>Create Service</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer" onClick={() => navigate('/admin/create-portfolio')}>
+                        <span>Create Portfolio</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+                
                 <Button 
                   variant="outline" 
                   className="bg-transparent border-white text-white hover:bg-gray-800"
@@ -158,7 +182,7 @@ const UnifiedNavbar: React.FC = () => {
       {/* Mobile Menu */}
       <div 
         className={`lg:hidden bg-gray-900 shadow-lg transition-all duration-300 overflow-hidden ${
-          mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          mobileMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="container mx-auto px-4 py-4">
@@ -259,15 +283,54 @@ const UnifiedNavbar: React.FC = () => {
               </div>
             </div>
 
-            {/* Admin Panel link for admin users in mobile menu */}
-            {isAdmin && (
-              <Link 
-                to="/admin"
-                className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Admin Panel
-              </Link>
+            {/* Admin Panel options for mobile */}
+            {isAuthenticated && isAdmin && (
+              <>
+                <div className="py-2">
+                  <button 
+                    className="flex items-center justify-between w-full text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
+                    onClick={() => toggleDropdown('admin')}
+                  >
+                    Admin Panel
+                    <ChevronDown 
+                      size={16} 
+                      className={`transition-transform duration-300 ${
+                        activeDropdown === 'admin' ? "transform rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  
+                  <div 
+                    className={`transition-all duration-300 overflow-hidden ${
+                      activeDropdown === 'admin' ? "max-h-[300px] pt-2" : "max-h-0"
+                    }`}
+                  >
+                    <div className="pl-4 flex flex-col space-y-2">
+                      <Link 
+                        to="/admin" 
+                        className="text-gray-300 hover:text-cyan-400 text-sm py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <Link 
+                        to="/admin/create-service" 
+                        className="text-gray-300 hover:text-cyan-400 text-sm py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Create Service
+                      </Link>
+                      <Link 
+                        to="/admin/create-portfolio" 
+                        className="text-gray-300 hover:text-cyan-400 text-sm py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Create Portfolio
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
 
             {/* Auth Links for mobile */}
