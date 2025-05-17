@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import { AuthProvider } from "@/hooks/useAuth";
 
 // Page imports
 import Index from "./pages/Index";
@@ -21,6 +22,13 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Blog from "./pages/Blog";
 import Services from "./pages/Services";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
+// Admin pages
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import CreateService from "./pages/admin/CreateService";
+import CreatePortfolio from "./pages/admin/CreatePortfolio";
 
 // Submenu page imports
 import ResponsiveWebDesigning from "./pages/WebDesignSubPages/ResponsiveWebDesigning";
@@ -34,200 +42,246 @@ import SeoServices from "./pages/WebMarketingSubPages/SeoServices";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <SonnerToaster />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* Main menu routes */}
-          <Route
-            path="/web-design-&-graphics"
-            element={
-              <Layout>
-                <WebDesignGraphics />
-              </Layout>
-            }
-          />
-          <Route
-            path="/web-development"
-            element={
-              <Layout>
-                <WebDevelopment />
-              </Layout>
-            }
-          />
-          <Route
-            path="/software-&-mobile"
-            element={
-              <Layout>
-                <SoftwareMobile />
-              </Layout>
-            }
-          />
-          <Route
-            path="/web-marketing"
-            element={
-              <Layout>
-                <WebMarketing />
-              </Layout>
-            }
-          />
-          <Route
-            path="/hire-us"
-            element={
-              <Layout>
-                <HireUs />
-              </Layout>
-            }
-          />
-          <Route
-            path="/portfolio"
-            element={
-              <Layout>
-                <Portfolio />
-              </Layout>
-            }
-          />
-          <Route
-            path="/company"
-            element={
-              <Layout>
-                <Company />
-              </Layout>
-            }
-          />
-          <Route
-            path="/training"
-            element={
-              <Layout>
-                <Training />
-              </Layout>
-            }
-          />{" "}
-          {/* FIXED */}
-          <Route
-            path="/career"
-            element={
-              <Layout>
-                <Career />
-              </Layout>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <Layout>
-                <Contact />
-              </Layout>
-            }
-          />
-          <Route
-            path="/faq"
-            element={
-              <Layout>
-                <FAQ />
-              </Layout>
-            }
-          />
-          <Route
-            path="/blog"
-            element={
-              <Layout>
-                <Blog />
-              </Layout>
-            }
-          />
-          <Route
-            path="/Service"
-            element={
-              <Layout>
-                <Services />
-              </Layout>
-            }
-          />
-          {/* Web Design & Graphics submenu */}
-          <Route
-            path="/web-designing/responsive-web-designing"
-            element={
-              <Layout>
-                <ResponsiveWebDesigning />
-              </Layout>
-            }
-          />
-          <Route
-            path="/services"
-            element={
-              <Layout>
-                <Services />
-              </Layout>
-            }
-          />
-          <Route
-            path="/web-designing/website-redesigning"
-            element={
-              <Layout>
-                <WebsiteRedesigning />
-              </Layout>
-            }
-          />
-          <Route
-            path="/graphics-design-services/logo-designing"
-            element={
-              <Layout>
-                <LogoDesigning />
-              </Layout>
-            }
-          />
-          {/* Web Development submenu */}
-          <Route
-            path="/cms-development/wordpress-development"
-            element={
-              <Layout>
-                <WordpressDevelopment />
-              </Layout>
-            }
-          />
-          <Route
-            path="/backend-development/custom-development"
-            element={
-              <Layout>
-                <CustomDevelopment />
-              </Layout>
-            }
-          />
-          {/* Software & Mobile submenu */}
-          <Route
-            path="/mobile-apps/android-development"
-            element={
-              <Layout>
-                <MobileAppDevelopment />
-              </Layout>
-            }
-          />
-          {/* Web Marketing submenu */}
-          <Route
-            path="/seo-services/on-page-seo"
-            element={
-              <Layout>
-                <SeoServices />
-              </Layout>
-            }
-          />
-          {/* 404 fallback */}
-          {/* <Route
-            path="*"
-            element={
-              <Layout>
-                <NotFound />
-              </Layout>
-            }
-          /> */}
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <SonnerToaster />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            {/* Main menu routes */}
+            <Route
+              path="/web-design-&-graphics"
+              element={
+                <Layout>
+                  <WebDesignGraphics />
+                </Layout>
+              }
+            />
+            <Route
+              path="/web-development"
+              element={
+                <Layout>
+                  <WebDevelopment />
+                </Layout>
+              }
+            />
+            <Route
+              path="/software-&-mobile"
+              element={
+                <Layout>
+                  <SoftwareMobile />
+                </Layout>
+              }
+            />
+            <Route
+              path="/web-marketing"
+              element={
+                <Layout>
+                  <WebMarketing />
+                </Layout>
+              }
+            />
+            <Route
+              path="/hire-us"
+              element={
+                <Layout>
+                  <HireUs />
+                </Layout>
+              }
+            />
+            <Route
+              path="/portfolio"
+              element={
+                <Layout>
+                  <Portfolio />
+                </Layout>
+              }
+            />
+            <Route
+              path="/company"
+              element={
+                <Layout>
+                  <Company />
+                </Layout>
+              }
+            />
+            <Route
+              path="/training"
+              element={
+                <Layout>
+                  <Training />
+                </Layout>
+              }
+            />
+            <Route
+              path="/career"
+              element={
+                <Layout>
+                  <Career />
+                </Layout>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <Layout>
+                  <Contact />
+                </Layout>
+              }
+            />
+            <Route
+              path="/faq"
+              element={
+                <Layout>
+                  <FAQ />
+                </Layout>
+              }
+            />
+            <Route
+              path="/blog"
+              element={
+                <Layout>
+                  <Blog />
+                </Layout>
+              }
+            />
+            <Route
+              path="/Service"
+              element={
+                <Layout>
+                  <Services />
+                </Layout>
+              }
+            />
+
+            {/* Auth Routes */}
+            <Route
+              path="/login"
+              element={
+                <Layout>
+                  <Login />
+                </Layout>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <Layout>
+                  <Signup />
+                </Layout>
+              }
+            />
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <Layout>
+                  <AdminDashboard />
+                </Layout>
+              }
+            />
+            <Route
+              path="/admin/create-service"
+              element={
+                <Layout>
+                  <CreateService />
+                </Layout>
+              }
+            />
+            <Route
+              path="/admin/create-portfolio"
+              element={
+                <Layout>
+                  <CreatePortfolio />
+                </Layout>
+              }
+            />
+
+            {/* Web Design & Graphics submenu */}
+            <Route
+              path="/web-designing/responsive-web-designing"
+              element={
+                <Layout>
+                  <ResponsiveWebDesigning />
+                </Layout>
+              }
+            />
+            <Route
+              path="/services"
+              element={
+                <Layout>
+                  <Services />
+                </Layout>
+              }
+            />
+            <Route
+              path="/web-designing/website-redesigning"
+              element={
+                <Layout>
+                  <WebsiteRedesigning />
+                </Layout>
+              }
+            />
+            <Route
+              path="/graphics-design-services/logo-designing"
+              element={
+                <Layout>
+                  <LogoDesigning />
+                </Layout>
+              }
+            />
+            {/* Web Development submenu */}
+            <Route
+              path="/cms-development/wordpress-development"
+              element={
+                <Layout>
+                  <WordpressDevelopment />
+                </Layout>
+              }
+            />
+            <Route
+              path="/backend-development/custom-development"
+              element={
+                <Layout>
+                  <CustomDevelopment />
+                </Layout>
+              }
+            />
+            {/* Software & Mobile submenu */}
+            <Route
+              path="/mobile-apps/android-development"
+              element={
+                <Layout>
+                  <MobileAppDevelopment />
+                </Layout>
+              }
+            />
+            {/* Web Marketing submenu */}
+            <Route
+              path="/seo-services/on-page-seo"
+              element={
+                <Layout>
+                  <SeoServices />
+                </Layout>
+              }
+            />
+            {/* 404 fallback */}
+            <Route
+              path="*"
+              element={
+                <Layout>
+                  <NotFound />
+                </Layout>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </AuthProvider>
 );
 
 export default App;

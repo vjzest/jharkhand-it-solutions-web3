@@ -1,11 +1,15 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
 
 const UnifiedNavbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
+  const navigate = useNavigate();
   
   const toggleDropdown = (dropdown: string) => {
     if (activeDropdown === dropdown) {
@@ -13,6 +17,11 @@ const UnifiedNavbar: React.FC = () => {
     } else {
       setActiveDropdown(dropdown);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   return (
@@ -91,15 +100,48 @@ const UnifiedNavbar: React.FC = () => {
                 </div>
               </div>
             </div>
+            
+            {/* Admin Panel link for admin users */}
+            {isAdmin && (
+              <Link 
+                to="/admin"
+                className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
+              >
+                Admin Panel
+              </Link>
+            )}
           </div>
           
-          {/* CTA Button */}
-          <Link 
-            to="/contact"
-            className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-md transition-all"
-          >
-            Get Started
-          </Link>
+          {/* Auth Buttons */}
+          <div className="flex items-center space-x-4">
+            {isAuthenticated ? (
+              <>
+                <span className="hidden md:inline text-white">
+                  {user?.email}
+                </span>
+                <Button 
+                  variant="outline" 
+                  className="bg-transparent border-white text-white hover:bg-gray-800"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" className="text-white hover:text-cyan-400">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button className="bg-cyan-500 hover:bg-cyan-600 text-white">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
           
           {/* Mobile Menu Button */}
           <button 
@@ -217,13 +259,52 @@ const UnifiedNavbar: React.FC = () => {
               </div>
             </div>
 
-            <Link 
-              to="/contact"
-              className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-md text-center transition-all mt-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Get Started
-            </Link>
+            {/* Admin Panel link for admin users in mobile menu */}
+            {isAdmin && (
+              <Link 
+                to="/admin"
+                className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Admin Panel
+              </Link>
+            )}
+
+            {/* Auth Links for mobile */}
+            {isAuthenticated ? (
+              <>
+                <div className="py-2 text-white">
+                  {user?.email}
+                </div>
+                <button 
+                  className="bg-transparent border border-white text-white hover:bg-gray-800 font-medium py-2 px-4 rounded-md text-center transition-all"
+                  onClick={() => {
+                    logout();
+                    setMobileMenuOpen(false);
+                    navigate('/');
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link 
+                  to="/login"
+                  className="text-white hover:text-cyan-400 transition-colors font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link 
+                  to="/signup"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-md text-center transition-all mt-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
